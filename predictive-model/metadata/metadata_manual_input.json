@@ -1,0 +1,47 @@
+{
+    "METADATA_SPEC_VERSION": "SINGLE_TABLE_V1",
+    "columns": {
+        "id": {
+            "sdtype": "id"
+        },
+        "weight_kg": {
+            "sdtype": "numerical"
+        },
+        "weight_pounds": {
+            "sdtype": "numerical"
+        },
+        "bmi": {
+            "sdtype": "categorical"
+        },
+        "date": {
+            "sdtype": "datetime"
+        },
+        "time": {
+            "sdtype": "categorical"
+        },
+        "fat": {
+            "sdtype": "categorical"
+        },
+        "calorie_consumption": {
+            "sdtype": "categorical"
+        },
+        "doctor_visit": {
+            "sdtype": "boolean"
+        },
+        "symptom_code": {
+            "sdtype": "categorical"
+        },
+        "blood_pressure": {
+            "sdtype": "categorical"
+        },
+        "glucose_morning": {
+            "sdtype": "categorical"
+        },
+        "glucose_evening": {
+            "sdtype": "categorical"
+        },
+        "mental_health_code": {
+            "sdtype": "categorical"
+        }
+    }
+}
