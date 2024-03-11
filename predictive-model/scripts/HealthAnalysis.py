@@ -24,6 +24,10 @@ Monitor changes in resting heart rate over time --> Place this data in a datafra
 Step 1: Filter Dataset to intensity_level=0 and mets=10 --> unique id analysis 
 func1 - calculate avg hr, func2 - adjust heartrate to typical pregnancy/black woman amounts,func3 - analyze the shift/elevation and use manualInput to view any correlation (elevation or decreasing number/percentage against manualInput) - graph of conditions that align with heartrate increasing and the manualInput
 '''
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import * 
+from pyspark.sql.types import *
 from dotenv import load_dotenv
 import pandas as pd
 import os
@@ -32,8 +36,26 @@ import os
 load_dotenv()
 os.chdir(os.getenv('DEFAULT_PATH'))
 
-# test code
+## test code - continue testing
+spark = SparkSession \
+    .builder \
+    .appName("heartrate_mets_intensities_merged_inner.csv") \
+    .master('local[4]') \
+    .getOrCreate()
+    
+schema1 = StructType([StructField('id', IntegerType(), True), 
+                    StructField('timestamp', TimestampType(), True),
+                    StructField('intensity_level', IntegerType(), True),
+                    StructField('mets', IntegerType(), True),
+                    StructField('bpm', IntegerType(), True)])
 
+customer = spark.readStream.format('csv').schema(schema1)\
+    .option('header',True).option('maxFilePerTrigger', 1) \
+    .load(r'data_interim/heartrate_mets_intensities_merged_inner.csv')   
+    
+print(customer.isStreaming)
+ 
+    
 
 class CreateHealthAnalysisDataset:
     def __init__(self):
@@ -42,7 +64,7 @@ class CreateHealthAnalysisDataset:
         return pd.DataFrame() # this should include heartrate and manual input analysis 
         
 
-class HeartRateAnalysis:
+class HeartRateCorrelation:
     def __init__(self):
         self.df = pd.DataFrame() # contains heartrate analysis
         self.input_df = pd.read_csv('data_interim/heartrate_mets_intensities_merged_inner.csv')
@@ -70,7 +92,7 @@ class HeartRateAnalysis:
         return True # healthy possibility=True unhealthy=False
 
     
-class ConditionCorrelation:
+class SymptomCorrelation:
     # Manual Input use against heartrate
     def __init__(self): # typical conditions of pregnant women 
         self.typical_symptoms = {
@@ -94,3 +116,25 @@ class ConditionCorrelation:
         return 30
     
 
+class SleepCorrelation():
+    print(None) # sleep is a direct link: https://pubmed.ncbi.nlm.nih.gov/29103944/
+    
+class ActivityCorrelation(): # read articles on how activity can benefit mental health, obesity, vitals etc.
+    print(None) 
+    
+class MentalHealthCorrelation():
+    def __init__(self):
+        self.mental_health_code = {
+            'mood_swings': ['bipolar'] # work on the correlations between various mental illnesses and maternal health
+        }
+        
+class WeightCorrelation(): # analysis of diabetes and obesity: https://pubmed.ncbi.nlm.nih.gov/20963519/
+    print(None)
+
+## Geospatial component
+class SubstanceAbuseCorrelation(): # maybe tie in symptoms, mental health, sleep patterns etc. to potential substance abuse
+    print(None)
+    
+
+class DeathGeoRateCorrelation(): # death rate correlation to geography areas using WONDER data, data of hospitals, and public/private insurance, and black population (women)
+    print(None)
