@@ -1,73 +1,27 @@
 '''
 @author: Ashlyn Campbell
-File Description: This file takes in a csv file and computed the resting heart rate at low intensity(value=0) and resting mets(value=10) daily
+File Description: This file takes in a csv file at the moment and will use the Fitbit API
 '''
 
-'''
-Plan: 
-
-Identify Period:
-Identify periods of inactivity (5-10 minutes calculation) during which the individual is assumed to be at rest and not engaged in any physical activity.
-
-Calculate Resting Heart Rate:
-Use AVG over 5-10 mins consistent mets=10 and intensity=0
-
-Repeat for Multiple Days:
-Calculate each day to view any shifts and improve this estimate
-
-(How does their heartrate change over a 30 day time span)
-
-Validation and Monitoring:
-Validate the calculated resting heart rate estimate against established norms (Pregnant and Black Women)
-Monitor changes in resting heart rate over time --> Place this data in a dataframe or database
-
-Step 1: Filter Dataset to intensity_level=0 and mets=10 --> unique id analysis 
-func1 - calculate avg hr, func2 - adjust heartrate to typical pregnancy/black woman amounts,func3 - analyze the shift/elevation and use manualInput to view any correlation (elevation or decreasing number/percentage against manualInput) - graph of conditions that align with heartrate increasing and the manualInput
-'''
-
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import * 
-from pyspark.sql.types import *
 from dotenv import load_dotenv
 import pandas as pd
+import SummarizeData
 import os
 
 # set working directory path
 load_dotenv()
 os.chdir(os.getenv('DEFAULT_PATH'))
 
-## test code - continue testing
-spark = SparkSession \
-    .builder \
-    .appName("heartrate_mets_intensities_merged_inner.csv") \
-    .master('local[4]') \
-    .getOrCreate()
-    
-schema1 = StructType([StructField('id', IntegerType(), True), 
-                    StructField('timestamp', TimestampType(), True),
-                    StructField('intensity_level', IntegerType(), True),
-                    StructField('mets', IntegerType(), True),
-                    StructField('bpm', IntegerType(), True)])
-
-customer = spark.readStream.format('csv').schema(schema1)\
-    .option('header',True).option('maxFilePerTrigger', 1) \
-    .load(r'data_interim/heartrate_mets_intensities_merged_inner.csv')   
-    
-print(customer.isStreaming)
- 
-    
-
-class CreateHealthAnalysisDataset:
-    def __init__(self):
-        self.df = self.create_dataframe()
-    def create_dataframe(self):
-        return pd.DataFrame() # this should include heartrate and manual input analysis 
-        
-
+class HealthAnalysis:
+    def __init__(self, id):
+        self.id = id
+        self.analysis = {
+            'irregular_heartrate': False,
+            'irregular_sleep': False,
+            'irregular_activity': False,
+        }
 class HeartRateCorrelation:
     def __init__(self):
-        self.df = pd.DataFrame() # contains heartrate analysis
-        self.input_df = pd.read_csv('data_interim/heartrate_mets_intensities_merged_inner.csv')
         self.base_il = 0 # base intensity level
         self.base_mets = 10 # base mets value
         self.expected_movement = 0 # in pregnancy theres up and down movement that typically occurs (update based on literature)
@@ -75,18 +29,7 @@ class HeartRateCorrelation:
         self.hr_health = self.analyze_hr()
         
     def calculate_resting_heartrate(self):
-        # only viewing resting data
-        self.input_df = self.input_df[(self.input_df['mets'] == 10) and (self.input_df['intensity_level'] == 0)]
-        self.input_df['timestamp'] = pd.to_datetime(self.input_df['timestamp'], format='%m/%d/%Y %I:%M:%S %p')
-        self.input_df = self.input_df.sort_values(by='timestamp')
-        rhr = 0
-        timestamps = self.input_df['timestamp'].unique()
-        ids = self.input_df['id'].unique()
-        for id in ids:
-            self.input_df[id]['timestamp'] # continue working on the resting heartrate code
-        
-        # place information into dataframe
-        return rhr # dictionary {id:rhr}
+        return None
     
     def analyze_hr(self):
         return True # healthy possibility=True unhealthy=False
@@ -114,10 +57,26 @@ class SymptomCorrelation:
         return True
     def analyze_bmi(self):
         return 30
-    
 
 class SleepCorrelation():
     print(None) # sleep is a direct link: https://pubmed.ncbi.nlm.nih.gov/29103944/
+    def __init__(self, total_minutes):
+        self.total_minutes = total_minutes
+        
+    def analyzeSleep(self):
+        total_hours = self.total_minutes // 60 # convert minutes into hours analysis
+        irregular_sleep = False
+        if (total_hours <= 6):
+            irregular_sleep = True
+        self.Alert() # alert with sleep metric
+        return irregular_sleep # irregular sleep can be caused by many things so the next steps is to perform a Health Analysis 
+        
+    def Alert(self):
+        # customize types of messages based on the scenario # update this later
+        SummarizeData.displayAdvice(type='improve_sleep') # the future may yield exact requests input
+        return f'''
+                Hello first_name, we have noticed a decline in sleep time. Click the App to learn how to improve these patterns!
+                '''
     
 class ActivityCorrelation(): # read articles on how activity can benefit mental health, obesity, vitals etc.
     print(None) 
@@ -138,3 +97,6 @@ class SubstanceAbuseCorrelation(): # maybe tie in symptoms, mental health, sleep
 
 class DeathGeoRateCorrelation(): # death rate correlation to geography areas using WONDER data, data of hospitals, and public/private insurance, and black population (women)
     print(None)
+    
+        
+    
