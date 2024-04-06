@@ -1,10 +1,7 @@
 # Maternal Health Research 
 
-The research investigates the impact of bias on health outcomes for Black women, focusing particularly on maternal care. 
-It proposes strategies to mitigate bias through personalized education, exemplified by the development of a mobile application aimed at
-providing access to relevant health information and resources. Additionally, the study is currently designing and implementing a model
-alert system and virtual coaching program, tailored to modern attention spans, to enhance maternal health monitoring and support. 
-Through these ongoing efforts, the research aims to contribute to improved outcomes and equity in healthcare for Black women.
+This research investigates the impact of bias on health outcomes for Black women, focusing particularly on maternal health. 
+It proposes strategies to mitigate bias through personalized engagement for pregnant women to effectively learn about their personal health. A proposed computational framework consisting of machine learning and natural language processing models is used for early detection and intervention. 
 
 ## Table of Contents
 
@@ -17,15 +14,13 @@ Through these ongoing efforts, the research aims to contribute to improved outco
   - [Contributing](#contributing)
   - [License](#license)
 
-## About
+## Methods
 - Normalization and Data Preprocessing
-- Anomaly Detection with Isolation Forest Algorithm
-- Threshold Detection
-- Contextual Information Integration
-- Sleep & Activity Tracking/Alerting
-- React Native Mobile Application Development
+- Anomaly Detection: Isolation Forests & Local Outlier Factor
+- Threshold Analysis
+- Automated Recommendations 
   
-## Features
+## Conceptual Design
 
 1. Dashboard - Interactive, pretty, and sleek (Good Awareness/Risk Awareness Sides)
 2. Manual Input - Weight, Calories, Blood Pressure, Glucose, mental health, symptoms
