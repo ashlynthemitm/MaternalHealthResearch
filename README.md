@@ -8,11 +8,11 @@ It proposes strategies to mitigate bias through personalized engagement for preg
 - [Maternal Health Research](#maternal-health-research)
   - [Table of Contents](#table-of-contents)
   - [Project Structure](#project_structure)
-  - [Methods](#methods)
   - [Contributors](#contributors)
 
 ## Project Structure
 
+```
 predictive-model/
 │
 ├── data_interim/
@@ -39,9 +39,7 @@ predictive-model/
 │
 │
 └── README.md
-
-## Methods
-** Under Construction **
+```
   
 ## Contributors
 - Ashlyn Campbell
