@@ -7,36 +7,41 @@ It proposes strategies to mitigate bias through personalized engagement for preg
 
 - [Maternal Health Research](#maternal-health-research)
   - [Table of Contents](#table-of-contents)
-  - [Conceptual Design](#conceptual-design)
+  - [Project Structure](#project_structure)
   - [Methods](#methods)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Contributing](#contributing)
-  - [License](#license)
+  - [Contributors](#contributors)
 
-## Conceptual Design
+## Project Structure
 
-1. Dashboard - Interactive, pretty, and sleek (Good Awareness/Risk Awareness Sides)
-2. Manual Input - Weight, Calories, Blood Pressure, Glucose, mental health, symptoms
-3. Notifications - Sleep, Activity, Heart Rate, Food Intake, etc.
-4. Fetal Progress - Size comparison (orange, melon, etc.), Monthly Bump Pictures 
-5. Geospatial Element - Analyzing the populations that would benefit most from this tracking
-6. Monitoring - 
-- Sleep Patterns (quality of sleep)
-- Activity (types is it low intensity —> high etc. is their heart beating irregular when moving?)
-- Heart Rate (Anomalies, threshold, and pattern recognition)
-- Food Intake (Calories Tracker will maybe integrate myfitne)
+predictive-model/
+│
+├── data_interim/
+│   └── Datasets after processing
+│
+├── data_raw/
+│   └── Initial datasets before processing
+│
+├── metadata/
+│   └── Metadata json files
+│
+├── notebooks/
+│   └── Data Modelling and Analysis Jupyter Notebook files
+│
+├── reports/
+│   └── Data summary of anomalies
+│
+├── scripts/
+│   └── Health Analysis and Summarization script files
+│
+│
+├── visualizations/
+│   └── Temporary Manual Input performance images
+│
+│
+└── README.md
 
 ## Methods
-- Normalization and Data Preprocessing
-- Anomaly Detection: Isolation Forests & Local Outlier Factor
-- Threshold Analysis
-- Automated Recommendations 
-
-## Installation
-To be determined.
-## Usage
-To be determined.
-
-## License
-Advancing Societal Solutions HUB (ASH)
+** Under Construction **
+  
+## Contributors
+- Ashlyn Campbell
