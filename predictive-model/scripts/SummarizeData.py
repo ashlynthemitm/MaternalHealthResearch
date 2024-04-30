@@ -1,13 +1,9 @@
 '''
 @author: Ashlyn Campbell
-File Description: This file is used to generate summary information in TLDR format daily and tailor advice when Alerts are displayed
+@description: This file analyzes the thresholds and trends in the modelling analysis to output understandable information about personal health.
 '''
 
-def displayAdvice(type=None):
-    match type:
-        case 'improve_sleep':
-            # read the tldr.json file for sleep metrics and summarize to display
-            codehere=None
-        case _:
-            # generate random advice
-            codehere=None
+from transformers import BertTokenizer, BertForSequenceClassification, AdamW
+from torch.utils.data import DataLoader, TensorDataset
+from sklearn.model_selection import train_test_split
+import torch
